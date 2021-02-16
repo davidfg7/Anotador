@@ -9,18 +9,18 @@ module.exports = {
         })
     }, 
     detail: function(req, res){
-        db.Notas.findByPk()
+        db.Notas.findByPk(req.params.id)
         .then(function(notas){
             res.render('detail', {notas: notas})
         })
     },
     create: function(req, res){
         if(!req.body.title || !req.body.text){
-            res.render('Completar todos los campos')
+            res.send('Completar todos los campos')
         }   else{
             db.Notas.create({
                 titulo: req.body.title,
-                text: req.body.text
+                texto: req.body.text
             })
             .then(()=>{
                 res.redirect('/')
@@ -28,19 +28,19 @@ module.exports = {
         }
     },
     update: function(req, res){
-        if(!req.body.title || !req.body.text){
-            res.render('Completar todos los campos')
+        if(!req.body.title || !req.body.message){
+            res.send('Completar todos los campos')
         }   else{
             db.Notas.update({
                 titulo: req.body.title,
-                text: req.body.text
+                texto: req.body.message
             }, {
                 where: {
                     id: req.params.id
                 }
             })
             .then(()=>{
-                res.render('/')
+                res.redirect('/')
             })
         }
     },
